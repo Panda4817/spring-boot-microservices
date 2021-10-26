@@ -1,0 +1,87 @@
+server.forward-headers-strategy: framework
+
+management:
+  endpoint:
+    health:
+      show-details: "ALWAYS"
+  endpoints:
+    web:
+      exposure:
+        include: "health"
+
+springdoc:
+  swagger-ui.path: /api/v1/joke/openapi/swagger-ui.html
+  api-docs.path: /api/v1/joke/openapi/v3/api-docs
+  packagesToScan: dev.kmunton.joke
+  pathsToMatch: /**
+
+api:
+
+  common:
+    version: 0.1.0
+    title: Lunchtime Joke API
+    description: Get amusing dad jokes to read at lunch
+    termsOfService: MY TERMS OF SERVICE
+    license: MY LICENSE
+    licenseUrl: MY LICENSE URL
+
+    externalDocDesc: MY WIKI PAGE
+    externalDocUrl: MY WIKI URL
+    contact:
+      name: K Munton
+      url: kmunton.dev
+      email: github@kmunton.dev
+
+  responseCodes:
+    ok.description: OK
+    notFound.description: Not found, no joke returned
+
+  joke:
+    get-random-joke:
+      description: Returns a random joke
+      notes: |
+        # Normal response
+        If the third party api is up, api will return:
+        1. joke id
+        1. joke text
+        1. joke status
+
+        ## If third party api is down
+        404 - A **Not Found** error will be returned
+
+
+
+
+server.port: 7001
+spring.zipkin.sender.type: web
+
+spring.application.name: joke
+
+app:
+  eureka-username: ${admin_username}
+  eureka-password: ${admin_password}
+  eureka-server: localhost
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${app.eureka-username}:${app.eureka-password}@${app.eureka-server}:8761/eureka/
+    initialInstanceInfoReplicationIntervalSeconds: 5
+    registryFetchIntervalSeconds: 5
+  instance:
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 5
+
+logging:
+  level:
+    root: INFO
+    dev.kmunton.microservices: DEBUG
+
+---
+spring.config.activate.on-profile: docker
+
+app.eureka-server: eureka
+
+server.port: 8080
+
+spring.zipkin.baseUrl: http://${app.eureka-username}:${app.eureka-password}@zipkin:9411/

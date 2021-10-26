@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	
+	<groupId>org.springframework</groupId>
+    <artifactId>lunchtime-microservices</artifactId>
+    <version>0.1.0</version>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>microservices/geocode-service</module>
+        <module>microservices/joke-service</module>
+        <module>microservices/restaurant-third-party-service</module>
+		<module>microservices/restaurant-composite-service</module>
+        <module>microservices/restaurant-service</module>
+        <module>libraries/api</module>
+        <module>libraries/util</module>
+        <module>libraries/database</module>
+        <module>microservices/review-service</module>
+        <module>microservices/review-composite-service</module>
+        <module>microservices/site-service</module>
+        <module>spring-cloud/eureka-server</module>
+        <module>spring-cloud/gateway</module>
+    </modules>
+
+</project>

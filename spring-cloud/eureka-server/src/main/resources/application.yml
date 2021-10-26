@@ -1,0 +1,32 @@
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+  server:
+    waitTimeInMsWhenSyncEmpty: 0
+    response-cache-update-interval-ms: 5000
+
+
+management:
+  endpoint:
+    health:
+      show-details: "ALWAYS"
+  endpoints:
+    web:
+      exposure:
+        include: "health"
+
+app:
+  eureka-username: ${admin_username}
+  eureka-password: ${admin_password}
+
+spring.zipkin.sender.type: web
+spring.zipkin.baseUrl: http://${app.eureka-username}:${app.eureka-password}@zipkin:9411/

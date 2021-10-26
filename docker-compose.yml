@@ -1,0 +1,122 @@
+version: '3'
+services:
+  joke:
+    build: microservices/joke-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - admin_password=${ADMIN_PASSWORD}
+      - admin_username=${ADMIN_USERNAME}
+
+  geocode:
+    build: microservices/geocode-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - API_KEY=${RAPID_API_KEY}
+      - admin_password=${ADMIN_PASSWORD}
+      - admin_username=${ADMIN_USERNAME}
+
+  restaurant-thirdparty:
+    build: microservices/restaurant-third-party-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - API_KEY=${RAPID_API_KEY}
+      - admin_password=${ADMIN_PASSWORD}
+      - admin_username=${ADMIN_USERNAME}
+
+  restaurant:
+    build: microservices/restaurant-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - postgres_password=${POSTGRES_DB_PASSWORD}
+      - admin_password=${ADMIN_PASSWORD}
+      - admin_username=${ADMIN_USERNAME}
+    depends_on:
+      - postgres
+  site:
+    build: microservices/site-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - postgres_password=${POSTGRES_DB_PASSWORD}
+      - admin_password=${ADMIN_PASSWORD}
+      - admin_username=${ADMIN_USERNAME}
+    depends_on:
+      - postgres
+
+  review:
+    build: microservices/review-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - postgres_password=${POSTGRES_DB_PASSWORD}
+      - admin_password=${ADMIN_PASSWORD}
+      - admin_username=${ADMIN_USERNAME}
+    depends_on:
+      - postgres
+
+  restaurant-composite:
+    build: microservices/restaurant-composite-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - admin_password=${ADMIN_PASSWORD}
+      - admin_username=${ADMIN_USERNAME}
+
+  review-composite:
+    build: microservices/review-composite-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - admin_password=${ADMIN_PASSWORD}
+      - admin_username=${ADMIN_USERNAME}
+
+  eureka:
+    environment:
+      - admin_password=${ADMIN_PASSWORD}
+      - admin_username=${ADMIN_USERNAME}
+    build: spring-cloud/eureka-server
+
+  gateway:
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - ssl_password=${SSL_CERTIFICATE_PASSWORD}
+      - admin_password=${ADMIN_PASSWORD}
+      - admin_username=${ADMIN_USERNAME}
+    build: spring-cloud/gateway
+    ports:
+      - "8080:8080"
+
+  zipkin:
+    image: openzipkin/zipkin:latest
+    environment:
+      - STORAGE_TYPE=mem
+    ports:
+      - "9411"
+
+  zipkin-auth:
+    image: usmanager/nginx-basic-auth-proxy:latest
+    ports:
+      - "9411:80"
+    environment:
+      - BASIC_AUTH_USERNAME=${ADMIN_USERNAME}
+      - BASIC_AUTH_PASSWORD=${ADMIN_PASSWORD}
+      - PROXY_PASS=http://zipkin:9411
+    depends_on:
+      - zipkin
+
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_DB_PASSWORD}
+      - POSTGRES_USER=testuser
+      - POSTGRES_DB=lunchtime
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: "psql -l -U testuser"
+      interval: 5s
+      timeout: 2s
+      retries: 60
+
+volumes:
+  pgdata:
+    external: true

@@ -1,0 +1,42 @@
+management:
+  endpoint:
+    health:
+      show-details: "ALWAYS"
+  endpoints:
+    web:
+      exposure:
+        include: "health"
+
+server.port: 7003
+
+spring.application.name: restaurant-thirdparty
+spring.zipkin.sender.type: web
+
+app:
+  eureka-username: ${admin_username}
+  eureka-password: ${admin_password}
+  eureka-server: localhost
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${app.eureka-username}:${app.eureka-password}@${app.eureka-server}:8761/eureka/
+    initialInstanceInfoReplicationIntervalSeconds: 5
+    registryFetchIntervalSeconds: 5
+  instance:
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 5
+
+logging:
+  level:
+    root: INFO
+    dev.kmunton.microservices: DEBUG
+
+---
+spring.config.activate.on-profile: docker
+
+app.eureka-server: eureka
+
+server.port: 8080
+
+spring.zipkin.baseUrl: http://${app.eureka-username}:${app.eureka-password}@zipkin:9411/

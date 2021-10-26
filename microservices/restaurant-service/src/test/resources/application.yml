@@ -1,0 +1,13 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  properties:
+    hibernate:
+      jdbc:
+        lob:
+          non_contextual_creation: true
+#  datasource:
+#    initialization-mode: ALWAYS
+
+server.port: 7004
