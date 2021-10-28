@@ -42,14 +42,19 @@ public class HealthCheckConfiguration {
     }
 
     private Health getHealth(String baseUrl) {
-        String url = baseUrl + "/actuator/health";
-        LOG.debug("Will call the Health API on URL: {}", url);
-        HttpStatus status = restTemplate.getForEntity(url, Object.class).getStatusCode();
-        if (status.value() == 200) {
+        String urlLiveness = baseUrl + "/actuator/health/liveness";
+        String urlReadiness = baseUrl + "/actuator/health/readiness";
+        LOG.debug("Will call the Health Liveness API on URL: {}", urlLiveness);
+        HttpStatus statusLiveness = restTemplate.getForEntity(urlLiveness, Object.class).getStatusCode();
+        LOG.debug("Will call the Health Readiness API on URL: {}", urlReadiness);
+        HttpStatus statusReadiness = restTemplate.getForEntity(urlReadiness, Object.class).getStatusCode();
+        if (statusLiveness.value() >= 200 && statusLiveness.value() < 400 && statusReadiness.value() >= 200 && statusReadiness.value() < 400) {
             return Health.up().build();
         } else {
-            LOG.info(status.toString());
-            return Health.down().withDetail("error code", status.value()).build();
+            LOG.info(statusLiveness.toString());
+            LOG.info(statusReadiness.toString());
+            String error = String.format("Liveness: {} and Readiness: {}", statusLiveness.value(), statusReadiness.value());
+            return Health.down().withDetail("error code", error).build();
         }
     }
 }

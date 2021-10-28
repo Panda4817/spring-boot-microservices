@@ -1,5 +1,18 @@
-management.endpoint.health.show-details: "ALWAYS"
-management.endpoints.web.exposure.include: "health"
+management:
+  endpoint:
+    health:
+      show-details: "ALWAYS"
+      probes:
+        enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "health,info"
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
 
 logging:
   level:
@@ -21,19 +34,8 @@ spring.zipkin.sender.type: web
 spring.sleuth.reactor.instrumentation-type: decorate-on-last
 
 app:
-  eureka-username: ${admin_username}
-  eureka-password: ${admin_password}
-  eureka-server: localhost
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: "http://${app.eureka-username}:${app.eureka-password}@${app.eureka-server}:8761/eureka/"
-    initialInstanceInfoReplicationIntervalSeconds: 5
-    registryFetchIntervalSeconds: 5
-  instance:
-    leaseRenewalIntervalInSeconds: 5
-    leaseExpirationDurationInSeconds: 5
+  admin-username: ${admin_username}
+  admin-password: ${admin_password}
 
 spring:
   cloud:
@@ -53,42 +55,23 @@ spring:
 
 spring.cloud.gateway.routes:
 - id: joke
-  uri: lb://joke
+  uri: http://joke
   predicates:
   - Path=/api/v1/joke/**
 
 - id: restaurant-composite
-  uri: lb://restaurant-composite
+  uri: http://restaurant-composite
   predicates:
   - Path=/api/v1/restaurants/**
 
 - id: review-composite
-  uri: lb://review-composite
+  uri: http://review-composite
   predicates:
   - Path=/api/v1/reviews/**
 
-- id: eureka-api
-  uri: http://${app.eureka-server}:8761
-  predicates:
-  - Path=/eureka/api/{segment}
-  filters:
-  - SetPath=/eureka/{segment}
-
-- id: eureka-web-start
-  uri: http://${app.eureka-server}:8761
-  predicates:
-  - Path=/eureka/web
-  filters:
-  - SetPath=/
-
-- id: eureka-web-other
-  uri: http://${app.eureka-server}:8761
-  predicates:
-  - Path=/eureka/**
-
+server.shutdown: graceful
+spring.lifecycle.timeout-per-shutdown-phase: 10s
 ---
 spring.config.activate.on-profile: docker
 
-app.eureka-server: eureka
-
-spring.zipkin.baseUrl: http://${app.eureka-username}:${app.eureka-password}@zipkin:9411/
+spring.zipkin.baseUrl: http://${app.admin-username}:${app.admin-password}@zipkin-server:9411/

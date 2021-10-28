@@ -3,7 +3,7 @@
 # Supply user and admin_password for admin access
 
 : ${HOST=localhost}
-: ${PORT=8080}
+: ${PORT=30080}
 : ${CA=--cacert /mnt/c/Users/kanta.munton/Documents/bench/ssl/rootCA.crt}
 
 function assertCurl () {
@@ -90,13 +90,8 @@ fi
 
 waitForService curl $CA https://$HOST:$PORT/actuator/health
 
-# Verify access to Eureka and that all eight microservices are # registered in Eureka
-
-assertCurl 200 "curl $CA -H \"accept:application/json\" https://$user:$admin_password@$HOST:$PORT/eureka/api/apps -s"
-assertEqual 9 $(echo $RESPONSE | jq ".applications.application | length")
-
-assertCurl 401 "curl http://$HOST:9411/zipkin -s"
-assertCurl 302 "curl http://$user:$admin_password@$HOST:9411/zipkin -s"
+assertCurl 401 "curl http://$HOST:30411/zipkin -s"
+assertCurl 302 "curl http://$user:$admin_password@$HOST:30411/zipkin -s"
 
 # Verify that a normal request works
 assertCurl 200 "curl $CA https://$HOST:$PORT/api/v1/restaurants?distance=0.1 -s"

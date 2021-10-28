@@ -16,7 +16,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest(properties = {"eureka.client.enabled=false"})
+@SpringBootTest
 class GeocodeServiceImplementationTest {
     private Logger logger = LoggerFactory.getLogger(GeocodeServiceImplementationTest.class);
 

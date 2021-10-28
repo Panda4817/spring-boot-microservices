@@ -24,8 +24,7 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT,
-		properties = {"eureka.client.enabled=false"})
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class RestaurantCompositeServiceApplicationTests {
 	private static final Integer RESTAURANT_ID = 1;
 	private static final Integer SITE_ID = 1;

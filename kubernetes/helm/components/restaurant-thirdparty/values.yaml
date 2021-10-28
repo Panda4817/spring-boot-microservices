@@ -1,0 +1,11 @@
+fullnameOverride: restaurant-thirdparty
+
+image:
+  name: restaurant-third-party-service
+
+env:
+  SPRING_PROFILES_ACTIVE: "docker"
+
+livenessProbe_enabled: true
+
+readinessProbe_enabled: true

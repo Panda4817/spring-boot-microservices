@@ -7,7 +7,12 @@ management:
   endpoints:
     web:
       exposure:
-        include: "health"
+        include: "health,info"
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
 
 springdoc:
   swagger-ui.path: /api/v1/restaurants/openapi/swagger-ui.html
@@ -75,19 +80,9 @@ spring.zipkin.sender.type: web
 spring.application.name: restaurant-composite
 
 app:
-  eureka-username: ${admin_username}
-  eureka-password: ${admin_password}
-  eureka-server: localhost
+  admin-username: ${admin_username}
+  admin-password: ${admin_password}
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://${app.eureka-username}:${app.eureka-password}@${app.eureka-server}:8761/eureka/
-    initialInstanceInfoReplicationIntervalSeconds: 5
-    registryFetchIntervalSeconds: 5
-  instance:
-    leaseRenewalIntervalInSeconds: 5
-    leaseExpirationDurationInSeconds: 5
 
 
 logging:
@@ -95,12 +90,12 @@ logging:
     root: INFO
     dev.kmunton.microservices: DEBUG
 
+server.shutdown: graceful
+spring.lifecycle.timeout-per-shutdown-phase: 10s
 ---
 spring.config.activate.on-profile: docker
 
-app.eureka-server: eureka
+server.port: 80
 
-server.port: 8080
-
-spring.zipkin.baseUrl: http://${app.eureka-username}:${app.eureka-password}@zipkin:9411/
+spring.zipkin.baseUrl: http://${app.admin-username}:${app.admin-password}@zipkin-server:9411/
 

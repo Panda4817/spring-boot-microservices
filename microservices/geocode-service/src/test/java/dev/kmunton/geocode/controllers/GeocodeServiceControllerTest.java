@@ -17,7 +17,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {"eureka.client.enabled=false", "security.basic.enabled=false"})
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = {"security.basic.enabled=false"})
 class GeocodeServiceControllerTest {
     private Logger logger = LoggerFactory.getLogger(GeocodeServiceControllerTest.class);
 

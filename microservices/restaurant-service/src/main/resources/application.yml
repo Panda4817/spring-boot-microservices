@@ -2,10 +2,20 @@ management:
   endpoint:
     health:
       show-details: "ALWAYS"
+      probes:
+        enabled: true
+      group:
+        readiness:
+          include: db
   endpoints:
     web:
       exposure:
-        include: "health"
+        include: "health,info"
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
 
 
 server.port: 7004
@@ -14,19 +24,8 @@ spring.zipkin.sender.type: web
 spring.application.name: restaurant
 
 app:
-  eureka-username: ${admin_username}
-  eureka-password: ${admin_password}
-  eureka-server: localhost
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://${app.eureka-username}:${app.eureka-password}@${app.eureka-server}:8761/eureka/
-    initialInstanceInfoReplicationIntervalSeconds: 5
-    registryFetchIntervalSeconds: 5
-  instance:
-    leaseRenewalIntervalInSeconds: 5
-    leaseExpirationDurationInSeconds: 5
+  admin-username: ${admin_username}
+  admin-password: ${admin_password}
 
 logging:
   level:
@@ -51,13 +50,13 @@ spring:
     password: ${postgres_password}
     driver-class-name: org.postgresql.Driver
 
+server.shutdown: graceful
+spring.lifecycle.timeout-per-shutdown-phase: 10s
 ---
 spring.config.activate.on-profile: docker
 
-app.eureka-server: eureka
-
-server.port: 8080
+server.port: 80
 
 spring.datasource.url: jdbc:postgresql://postgres:5432/lunchtime?user=testuser&password=${postgres_password}
 
-spring.zipkin.baseUrl: http://${app.eureka-username}:${app.eureka-password}@zipkin:9411/
+spring.zipkin.baseUrl: http://${app.admin-username}:${app.admin-password}@zipkin-server:9411/

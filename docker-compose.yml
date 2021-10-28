@@ -2,6 +2,7 @@ version: '3'
 services:
   joke:
     build: microservices/joke-service
+    image: lunchtime/joke-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - admin_password=${ADMIN_PASSWORD}
@@ -9,6 +10,7 @@ services:
 
   geocode:
     build: microservices/geocode-service
+    image: lunchtime/geocode-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - API_KEY=${RAPID_API_KEY}
@@ -17,6 +19,7 @@ services:
 
   restaurant-thirdparty:
     build: microservices/restaurant-third-party-service
+    image: lunchtime/restaurant-third-party-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - API_KEY=${RAPID_API_KEY}
@@ -25,6 +28,7 @@ services:
 
   restaurant:
     build: microservices/restaurant-service
+    image: lunchtime/restaurant-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - postgres_password=${POSTGRES_DB_PASSWORD}
@@ -34,6 +38,7 @@ services:
       - postgres
   site:
     build: microservices/site-service
+    image: lunchtime/site-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - postgres_password=${POSTGRES_DB_PASSWORD}
@@ -44,6 +49,7 @@ services:
 
   review:
     build: microservices/review-service
+    image: lunchtime/review-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - postgres_password=${POSTGRES_DB_PASSWORD}
@@ -54,6 +60,7 @@ services:
 
   restaurant-composite:
     build: microservices/restaurant-composite-service
+    image: lunchtime/restaurant-composite-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - admin_password=${ADMIN_PASSWORD}
@@ -61,28 +68,24 @@ services:
 
   review-composite:
     build: microservices/review-composite-service
+    image: lunchtime/review-composite-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - admin_password=${ADMIN_PASSWORD}
       - admin_username=${ADMIN_USERNAME}
 
-  eureka:
-    environment:
-      - admin_password=${ADMIN_PASSWORD}
-      - admin_username=${ADMIN_USERNAME}
-    build: spring-cloud/eureka-server
-
   gateway:
+    build: spring-cloud/gateway
+    image: lunchtime/gateway
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - ssl_password=${SSL_CERTIFICATE_PASSWORD}
       - admin_password=${ADMIN_PASSWORD}
       - admin_username=${ADMIN_USERNAME}
-    build: spring-cloud/gateway
     ports:
       - "8080:8080"
 
-  zipkin:
+  zipkin-server:
     image: openzipkin/zipkin:latest
     environment:
       - STORAGE_TYPE=mem
@@ -96,9 +99,9 @@ services:
     environment:
       - BASIC_AUTH_USERNAME=${ADMIN_USERNAME}
       - BASIC_AUTH_PASSWORD=${ADMIN_PASSWORD}
-      - PROXY_PASS=http://zipkin:9411
+      - PROXY_PASS=http://zipkin-server:9411
     depends_on:
-      - zipkin
+      - zipkin-server
 
 
   postgres:
@@ -120,3 +123,4 @@ services:
 volumes:
   pgdata:
     external: true
+

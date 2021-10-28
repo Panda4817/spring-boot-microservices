@@ -14,8 +14,7 @@ import org.springframework.test.web.client.MockRestServiceServer;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(
-        properties = {"eureka.client.enabled=false"})
+@SpringBootTest
 class JokeServiceImplementationTest {
     private Logger logger = LoggerFactory.getLogger(JokeServiceImplementationTest.class);
 
