@@ -24,8 +24,8 @@ spring.zipkin.sender.type: web
 spring.application.name: site
 
 app:
-  admin-username: ${admin_username:admin}
-  admin-password: ${admin_password:password}
+  admin-username: ${ADMIN_USERNAME:admin}
+  admin-password: ${ADMIN_PASSWORD:password}
 
 logging:
   level:
@@ -45,9 +45,9 @@ spring:
   datasource:
     initialization-mode: NEVER
     platform: postgres
-    url: jdbc:postgresql://localhost:5432/${postgres_db:lunchtime}
-    username: ${postgres_user:testuser}
-    password: ${postgres_password:password}
+    url: jdbc:postgresql://${POSTGRES_DB_HOST:localhost}:${POSTGRES_DB_PORT:5432}/${POSTGRES_DB_NAME:lunchtime}
+    username: ${POSTGRES_DB_USER:testuser}
+    password: ${POSTGRES_DB_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
 
 server.shutdown: graceful
@@ -57,8 +57,8 @@ spring.config.activate.on-profile: docker
 
 server.port: 80
 
-spring.datasource.url: jdbc:postgresql://${postgres_host}:${postgres_port}/${postgres_db}?sslmode=require
-spring.datatsource.username: ${postgres_user}
-spring.datasource.password: ${postgres_password}
+spring.datasource.url: jdbc:postgresql://${POSTGRES_DB_HOST}:${POSTGRES_DB_PORT}/${POSTGRES_DB_NAME}?sslmode=require
+spring.datatsource.username: ${POSTGRES_DB_USER}
+spring.datasource.password: ${POSTGRES_DB_PASSWORD}
 
 spring.zipkin.baseUrl: http://${app.admin-username}:${app.admin-password}@zipkin-server:9411/

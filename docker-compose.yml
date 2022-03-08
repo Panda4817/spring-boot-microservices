@@ -6,8 +6,8 @@ services:
     env_file: .env
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - admin_password=${ADMIN_PASSWORD}
-      - admin_username=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
 
   geocode:
     build: microservices/geocode-service
@@ -16,8 +16,8 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - API_KEY=${RAPID_API_KEY}
-      - admin_password=${ADMIN_PASSWORD}
-      - admin_username=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
 
   restaurant-thirdparty:
     build: microservices/restaurant-third-party-service
@@ -26,8 +26,8 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - API_KEY=${RAPID_API_KEY}
-      - admin_password=${ADMIN_PASSWORD}
-      - admin_username=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
 
   restaurant:
     build: microservices/restaurant-service
@@ -35,13 +35,13 @@ services:
     env_file: .env
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - postgres_password=${POSTGRES_DB_PASSWORD}
-      - postgres_host=${POSTGRES_DB_HOST}
-      - postgres_port=${POSTGRES_DB_PORT}
-      - postgres_db=${POSTGRES_DB_NAME}
-      - postgres_user={POSTGRES_DB_USER}
-      - admin_password=${ADMIN_PASSWORD}
-      - admin_username=${ADMIN_USERNAME}
+      - POSTGRES_DB_PASSWORD=${POSTGRES_DB_PASSWORD}
+      - POSTGRES_DB_HOST=${POSTGRES_DB_HOST}
+      - POSTGRES_DB_PORT=${POSTGRES_DB_PORT}
+      - POSTGRES_DB_NAME=${POSTGRES_DB_NAME}
+      - POSTGRES_DB_USER={POSTGRES_DB_USER}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
 
   site:
     build: microservices/site-service
@@ -49,13 +49,13 @@ services:
     env_file: .env
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - postgres_password=${POSTGRES_DB_PASSWORD}
-      - postgres_host=${POSTGRES_DB_HOST}
-      - postgres_port=${POSTGRES_DB_PORT}
-      - postgres_db=${POSTGRES_DB_NAME}
-      - postgres_user={POSTGRES_DB_USER}
-      - admin_password=${ADMIN_PASSWORD}
-      - admin_username=${ADMIN_USERNAME}
+      - POSTGRES_DB_PASSWORD=${POSTGRES_DB_PASSWORD}
+      - POSTGRES_DB_HOST=${POSTGRES_DB_HOST}
+      - POSTGRES_DB_PORT=${POSTGRES_DB_PORT}
+      - POSTGRES_DB_NAME=${POSTGRES_DB_NAME}
+      - POSTGRES_DB_USER={POSTGRES_DB_USER}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
 
   review:
     build: microservices/review-service
@@ -63,13 +63,13 @@ services:
     env_file: .env
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - postgres_password=${POSTGRES_DB_PASSWORD}
-      - postgres_host=${POSTGRES_DB_HOST}
-      - postgres_port=${POSTGRES_DB_PORT}
-      - postgres_db=${POSTGRES_DB_NAME}
-      - postgres_user={POSTGRES_DB_USER}
-      - admin_password=${ADMIN_PASSWORD}
-      - admin_username=${ADMIN_USERNAME}
+      - POSTGRES_DB_PASSWORD=${POSTGRES_DB_PASSWORD}
+      - POSTGRES_DB_HOST=${POSTGRES_DB_HOST}
+      - POSTGRES_DB_PORT=${POSTGRES_DB_PORT}
+      - POSTGRES_DB_NAME=${POSTGRES_DB_NAME}
+      - POSTGRES_DB_USER={POSTGRES_DB_USER}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
 
   restaurant-composite:
     build: microservices/restaurant-composite-service
@@ -77,8 +77,8 @@ services:
     env_file: .env
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - admin_password=${ADMIN_PASSWORD}
-      - admin_username=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
 
   review-composite:
     build: microservices/review-composite-service
@@ -86,8 +86,8 @@ services:
     env_file: .env
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - admin_password=${ADMIN_PASSWORD}
-      - admin_username=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
 
   gateway:
     build: spring-cloud/gateway
@@ -95,8 +95,8 @@ services:
     env_file: .env
     environment:
       - SPRING_PROFILES_ACTIVE=docker
-      - admin_password=${ADMIN_PASSWORD}
-      - admin_username=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
     ports:
       - "8080:8080"
 
