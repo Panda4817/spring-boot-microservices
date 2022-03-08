@@ -24,8 +24,8 @@ spring.zipkin.sender.type: web
 spring.application.name: site
 
 app:
-  admin-username: ${admin_username}
-  admin-password: ${admin_password}
+  admin-username: ${admin_username:admin}
+  admin-password: ${admin_password:password}
 
 logging:
   level:
@@ -35,7 +35,7 @@ logging:
 spring:
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     database: POSTGRESQL
     properties:
       hibernate:
@@ -45,9 +45,9 @@ spring:
   datasource:
     initialization-mode: NEVER
     platform: postgres
-    url: jdbc:postgresql://localhost:5432/lunchtime?user=testuser&password=${postgres_password}&sslmode=require
-    username: testuser
-    password: ${postgres_password}
+    url: jdbc:postgresql://localhost:5432/${postgres_db:lunchtime}
+    username: ${postgres_user:testuser}
+    password: ${postgres_password:password}
     driver-class-name: org.postgresql.Driver
 
 server.shutdown: graceful
@@ -57,6 +57,8 @@ spring.config.activate.on-profile: docker
 
 server.port: 80
 
-spring.datasource.url: jdbc:postgresql://postgres:5432/lunchtime?user=testuser&password=${postgres_password}
+spring.datasource.url: jdbc:postgresql://${postgres_host}:${postgres_port}/${postgres_db}?sslmode=require
+spring.datatsource.username: ${postgres_user}
+spring.datasource.password: ${postgres_password}
 
 spring.zipkin.baseUrl: http://${app.admin-username}:${app.admin-password}@zipkin-server:9411/

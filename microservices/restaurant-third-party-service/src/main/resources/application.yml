@@ -20,8 +20,8 @@ spring.application.name: restaurant-thirdparty
 spring.zipkin.sender.type: web
 
 app:
-  admin-username: ${admin_username}
-  admin-password: ${admin_password}
+  admin-username: ${admin_username:admin}
+  admin-password: ${admin_password:password}
 
 
 logging:

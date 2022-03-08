@@ -20,12 +20,6 @@ logging:
     org.springframework.cloud.gateway.route.RouteDefinitionRouteLocator: INFO
     org.springframework.cloud.gateway: TRACE
 
-server.ssl.key-store: classpath:keystore.jks
-server.ssl.key-store-password: ${ssl_password}
-server.ssl.key-alias: localhost
-server.ssl.key-password: ${ssl_password}
-server.ssl.key-store-type: PKCS12
-server.ssl.enabled: true
 server.port: 8080
 
 spring.application.name: gateway
@@ -51,7 +45,6 @@ spring:
               - OPTIONS
             allowedHeaders: "*"
             allowCredentials: true
-            exposedHeaders: "X-XSRF-TOKEN"
 
 spring.cloud.gateway.routes:
 - id: joke

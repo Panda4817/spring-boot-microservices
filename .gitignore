@@ -34,3 +34,4 @@ build/
 
 .env
 setup-env.sh
+test-with-real-database.sh

@@ -90,8 +90,8 @@ server.port: 7007
 spring.application.name: review-composite
 
 app:
-  admin-username: ${admin_username}
-  admin-password: ${admin_password}
+  admin-username: ${admin_username:admin}
+  admin-password: ${admin_password:password}
 
 logging:
   level:

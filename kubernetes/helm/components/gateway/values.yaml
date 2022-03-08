@@ -12,12 +12,12 @@ env:
 livenessProbe_enabled: true
 livenessProbe:
   httpGet:
-    scheme: HTTPS
+    scheme: HTTP
     port: 8080
 readinessProbe_enabled: true
 readinessProbe:
   httpGet:
-    scheme: HTTPS
+    scheme: HTTP
     port: 8080
 
 service:

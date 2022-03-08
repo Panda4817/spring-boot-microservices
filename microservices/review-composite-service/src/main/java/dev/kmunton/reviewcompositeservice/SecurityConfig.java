@@ -45,10 +45,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // Use below if you want csrf tokens, however you will need ssl in backend
+//        http
+//                .csrf().csrfTokenRepository(csrfTokenRepository)
+//                .and()
+//                .addFilterAfter(sameSiteFilter, CsrfFilter.class)
+//                .authorizeRequests()
+//                .antMatchers("/api/v1/reviews/openapi/**").authenticated()
+//                .antMatchers("/**").permitAll()
+//                .and().httpBasic();
+
         http
-                .csrf().csrfTokenRepository(csrfTokenRepository)
-                .and()
-                .addFilterAfter(sameSiteFilter, CsrfFilter.class)
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/v1/reviews/openapi/**").authenticated()
                 .antMatchers("/**").permitAll()

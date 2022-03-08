@@ -46,9 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .csrf().csrfTokenRepository(csrfTokenRepository)
-                .and()
-                .addFilterAfter(sameSiteFilter, CsrfFilter.class)
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/v1/restaurants/openapi/**").authenticated()
                 .antMatchers("/**").permitAll()
